@@ -27,9 +27,9 @@ class ApplicationController < Sinatra::Base
   patch "/login" do
     user = User.find_by(name: params[:name], password: params[:password])
     if !!user
-    { isRegistered: "#{!!user}", userId: user.id }.to_json
+    { isRegistered: "#{!!user}", user: user }.to_json
     else
-      { isRegistered: "#{!!user}"}.to_json
+      { isRegistered: "#{!!user}", user: user}.to_json
     end
   end
 
@@ -40,7 +40,7 @@ class ApplicationController < Sinatra::Base
       { isAlreadyRegistered: "#{!!is_signed_up}" }.to_json
     else
       user = User.create(name: params[:name], email: params[:email], password: params[:password])
-      user.to_json
+      { isAlreadyRegistered: "#{!!is_signed_up}", user: user }.to_json
     end
   end
 
